@@ -1,0 +1,122 @@
+<div class="container p-5 my-5 bg-black " style="min-height:500px;" data-bs-theme="dark">
+  <div class="row">
+    <div class="col-4 border ms-4  me-5 py-3 bg-dark text-light">
+      <div class="border" style="height:300px;">
+        <img [src]="game.image" alt="Imagen" style="height:100%; width: 100%;"></div>
+      <div class="bg-dark mt-4"><h5 class="text-center text-light py-2">Categorias:</h5>
+        <div class="bg-body-secondary py-2">
+          <ul>
+            <li *ngFor="let category of game.categories">
+            {{category.name}}</li>
+          </ul>
+        </div>
+        </div>   
+    </div>
+    <div class="col-7 border px-5 py-3 bg-dark text-light">
+      <h5 class="fs-1 fw-bolder text-decoration-underline text-center">{{game.title}}</h5>          
+          <div class="fs-5">{{game.author}}</div>
+          <div class="d-flex justify-content-between ">
+            <div class="d-flex align-items-center">
+              <i class="bi me-1" [ngClass]="{'bi-star':game.valuate!<0.5, 'bi-star-half':0.5<=game.valuate!&& game.valuate!<1,'bi-star-fill':game.valuate!>=1}"></i>
+              <i class="bi me-1" [ngClass]="{'bi-star':game.valuate!<1.5, 'bi-star-half':1.5<=game.valuate!&& game.valuate!<2,'bi-star-fill':game.valuate!>=2}"></i>
+              <i class="bi me-1" [ngClass]="{'bi-star':game.valuate!<2.5, 'bi-star-half':2.5<=game.valuate!&& game.valuate!<3,'bi-star-fill':game.valuate!>=3}"></i>
+              <i class="bi me-1" [ngClass]="{'bi-star':game.valuate!<3.5, 'bi-star-half':3.5<=game.valuate!&& game.valuate!<4,'bi-star-fill':game.valuate!>=4}"></i>
+              <i class="bi me-1" [ngClass]="{'bi-star':game.valuate! <4.5, 'bi-star-half':4.5<=game.valuate !&& game.valuate! <5,'bi-star-fill':game.valuate! ==5}"></i>
+              <i>({{game.valuate}})</i>
+            </div>
+            <div class="p-1">
+              <h5 class=" fs-5" >{{game.price}}$</h5>             
+            </div>
+          </div>
+          <hr>
+          <p>{{game.description}}</p>
+          <hr>
+          <div *ngIf="userLogIn" class="d-flex justify-content-between align-items-end">
+
+              <button *ngIf="liked && !buy " class="btn btn-danger flex-shrink-0 mx-2" type="button" (click)="removeFromCart(game.id!)"><i class="bi bi-heartbreak-fill"></i></button>
+              <button *ngIf="!liked && !buy" class="btn btn-outline-danger flex-shrink-0 mx-2" type="button" (click)="addToCart(game.id!)">
+                <i class="bi bi-heart-fill"></i></button>
+              <button *ngIf="!buy" class="btn btn-outline-primary flex-shrink-0" type="button" [routerLink]="['/buy',game.id]"><i class="bi-cart-fill me-1"></i>
+                Comprar {{game.price}}€</button>
+                <div *ngIf="buy"></div>
+              <div *ngIf="buy" class=" bg-success text-center  rounded p-2" ><i class="bi bi-check"></i>En propiedad</div>
+          </div>
+          <hr>
+          <div *ngIf="!isValue&&userLogIn&& buy">
+            <h5 class="text-center ">Puntúanos:</h5>
+            <div class="text-center fs-3" id="ratingStars">
+              <a class="star" (mouseenter)="highlightStars(1)" (mouseleave)="resetStars()">
+                  <i [ngClass]="{'bi-star-fill text-warning': highlightedStars >= 1, 'bi-star text-light': highlightedStars < 1}" class="mx-2" (click)="addMyRate(1)"></i>
+              </a>
+              <a class="star" (mouseenter)="highlightStars(2)" (mouseleave)="resetStars()">
+                  <i [ngClass]="{'bi-star-fill text-warning': highlightedStars >= 2, 'bi-star text-light': highlightedStars < 2}" class="mx-2 " (click)="addMyRate(2)"></i>
+              </a>
+              <a class="star" (mouseenter)="highlightStars(3)" (mouseleave)="resetStars()">
+                  <i [ngClass]="{'bi-star-fill text-warning': highlightedStars >= 3, 'bi-star text-light': highlightedStars < 3}" class="mx-2 " (click)="addMyRate(3)"></i>
+              </a>
+              <a class="star" (mouseenter)="highlightStars(4)" (mouseleave)="resetStars()">
+                  <i [ngClass]="{'bi-star-fill text-warning': highlightedStars >= 4, 'bi-star text-light': highlightedStars < 4}" class="mx-2" (click)="addMyRate(4)"></i>
+              </a>
+              <a class="star" (mouseenter)="highlightStars(5)" (mouseleave)="resetStars()">
+                  <i [ngClass]="{'bi-star-fill text-warning ': highlightedStars >= 5, 'bi-star text-light': highlightedStars < 5}" class="mx-2" (click)="addMyRate(5)"></i>
+              </a>
+
+          
+            
+          </div>
+          </div>
+          <div *ngIf="isValue&&userLogIn" class="text-center">
+                <h5 class="text-center ">Tu valoración:</h5>
+                <div class="text-center fs-3">
+                  <i class="bi mx-2 text-warning" [ngClass]="{'bi-star':rate?.rate!<1, 'bi-star-fill':rate?.rate!>=1}"></i>
+                  <i class="bi mx-2 text-warning" [ngClass]="{'bi-star':rate?.rate!<2, 'bi-star-fill':rate?.rate!>=2}"></i>
+                  <i class="bi mx-2 text-warning" [ngClass]="{'bi-star':rate?.rate!<3, 'bi-star-fill':rate?.rate!>=3}"></i>
+                  <i class="bi mx-2 text-warning" [ngClass]="{'bi-star':rate?.rate!<4, 'bi-star-fill':rate?.rate!>=4}"></i>
+                  <i class="bi mx-2 text-warning" [ngClass]="{'bi-star':rate?.rate! <5, 'bi-star-fill':rate?.rate! ==5}"></i>
+                  
+                </div>
+                <button type="button" class="btn btn-danger mt-2" (click)="deleteMyRate()"><i class="bi bi-ban"></i></button>
+              </div>
+          <hr>
+                                       
+          </div>
+    </div >
+      <div class="bg-dark border px-5 py-3 mt-5 text-light">
+        <h5 class="fs-4 mb-3">Comentarios: {{comments.length}}</h5>
+        <div class="text-end mb-3" *ngIf="userLogIn">
+          <textarea class="form-control bg-dark text-light" [(ngModel)]="commentText" id="" rows="4" [placeholder]="['Escribe un comentario...']" data-bs-theme="dark" style="resize: none;" (focus)="commentNow=true" (blur)="showCommentButton()"></textarea>
+          <button *ngIf="commentNow" class="btn btn-success mt-1" type="button" (click)="addNewComment()" >Comentar</button>
+        </div>
+        <hr>
+        <div *ngIf="comments.length<=0" class="p-2 text-center">No hay comentarios</div>
+
+
+
+        <div *ngFor="let comment of comments" class="comment-item border rounded mb-3 px-4 py-2">
+          <div class="d-flex justify-content-between p-1 border-bottom mb-3">
+            <div>
+              <h5><i class="bi bi-person-circle"></i>  {{ comment.username }}</h5>
+              
+            </div>
+            
+            <span class="timestamp">{{ comment.createdAt | date:'HH:mm:ss dd/MM/yyyy' }}</span>
+          </div>
+          <textarea *ngIf="editComment" [(ngModel)]="comment.text" rows="4" class="form-control bg-dark text-light" style="resize: none;" >{{ comment.text }}</textarea>
+          <p *ngIf="!editComment">{{ comment.text }}</p>
+          <div class="comment-actions text-end border-top mt-4 pt-2 d-flex justify-content-between align-items-center">
+            <div ><div *ngIf="comment.updatedAt">Ultima modificacion: {{comment.updatedAt | date:'dd/MM/yyyy HH:mm:ss'}}</div></div>
+
+
+            <div *ngIf="userLogIn">
+            <button *ngIf="editComment" class="btn btn-success py-1" type="button" (click)="updateComment(comment)" >Aplicar cambios</button>
+            
+            <button *ngIf="user?.username==comment.username||user?.role != 'USER' " class="btn mx-3 py-1" type="button" [ngClass]="{'btn-danger':editComment==true,'btn-outline-warning':editComment==false }" (click)="editComment=!editComment">{{ editComment ? 'Cancelar' : 'Editar' }}</button>
+            
+            
+            <button *ngIf="user?.username==comment.username||user?.role != 'USER' " class="btn btn-outline-danger py-1" type="button"(click)="deleteComment(comment.id)" >Borrar</button>
+            </div>
+          </div>
+          </div>
+        </div>    
+    
+  </div>

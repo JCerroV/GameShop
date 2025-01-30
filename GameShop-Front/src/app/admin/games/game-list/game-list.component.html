@@ -1,0 +1,73 @@
+<div class="container bg-body-secondary p-4 mt-4">
+  <h5 class="mb-3 fs-1 text-center">MVPGames-Juegos</h5>
+  <ol class="breadcrumb fs-6 bg-body-tertiary p-1 ps-3">
+    <li class="breadcrumb-item"><a routerLink="">Inicio</a></li>
+    <li class="breadcrumb-item active">Juegos</li>
+  </ol>
+  <div class="card">
+    <div class="card-header bg-body-tertiary">
+      <h5 class="card-title">Juegos</h5>
+    </div>
+    <div class="card-body">
+      
+        <div class="toolbar bg-dark p-1 d-flex align-items-center justify-content-between">
+          <div>
+              <a class="btn btn-primary m-1 ms-3" routerLink="/admin/games/new">Agregar</a>
+            <button class="btn btn-primary m-1" (click)="ordenar()"><i class="bi bi-arrow-down-up"></i> Ordenar</button>
+            <button class="btn btn-danger m-1" (click)="deleteSelected()">Eliminar</button>
+          </div>
+            <div class="d-flex align-items-center">
+              <input class="form-control custom-input" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="filterChain" (ngModelChange)="filtrarJuegos()" >
+            <button class="btn custom-button me-3" [ngClass]="{'btn-secondary':filterChain=='','btn-danger':filterChain!=''}" (click)="cleanFilter()" type="submit"><i class="bi bi-x"></i></button>
+            </div>
+            
+            
+        </div>
+
+      <table class="table table-striped mt-2">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" [class.clicked]="order === 'id'" (click)="sentOrder('id')" >Id</th>
+            <th scope="col">Foto</th>
+            <th scope="col" [class.clicked]="order === 'title'" (click)="sentOrder('title')" >Título</th>
+            <th scope="col" [class.clicked]="order === 'author'" (click)="sentOrder('author')">Compañía</th>
+            <th scope="col">Precio</th>
+            <th scope="col" [class.clicked]="order === 'createdAt'" (click)="sentOrder('createdAt')">Creado</th>
+            <th scope="col" [class.clicked]="order === 'updatedAt'" (click)="sentOrder('updatedAt')">Modificado</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let game of games" [routerLink]="['/games/',game.id]"  >
+                <td><input type="checkbox" [value]="game.id" (change)="gameSelection($event, game.id!)" ></td>
+                <td>{{ game.id }}</td>
+                <td><img [src]="game.image" alt="" width="100px" height="57px" class="border"></td>
+                <td>{{ game.title }}</td>
+                <td>{{ game.author }}</td>
+                <td>{{ game.price }}</td>
+                <td>{{ game.formatCreateAt }}</td>
+                <td>{{ game.formatUpdatedAt }}</td>
+                <td>
+                  <a class="btn me-1" (click)="updateVisibility(game);$event.stopPropagation()" [ngClass]="{'btn-success':game.status,'btn-secondary':!game.status}"><i class="bi" [ngClass]="{'bi-eye':game.status,'bi-eye-slash':!game.status}"></i></a>
+                  <a class="btn btn-warning me-1" [routerLink]="['/admin/games/update/',game.id]"><i class="bi bi-pencil"></i></a>
+                  <a class="btn btn-danger me-1" (click)="deleteGame(game.id);$event.stopPropagation()"><i class="bi bi-trash"></i></a>
+                </td>
+              </tr>
+          </tbody>
+
+      </table>
+      <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" (click)="rewind()">Previous</a></li>
+          <li class="page-item"><a class="page-link" (click)="setPage(1)" [ngClass]="{'active': isFirst}">1</a></li>
+          <li *ngIf="page>1" class="page-item"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
+          <li *ngIf="!isFirst==true&&!isLast==true" class="page-item active"><a class="page-link" (click)="setPage(page+1)">{{page+1}}</a></li>
+          <li *ngIf="totalpages>page+2" class="page-item"><a class="page-link" (click)="setPage(page+2)">{{page+2}}</a></li>
+          <li *ngIf="totalpages!=1" class="page-item"><a class="page-link" (click)="setPage(totalpages)" [ngClass]="{'active': isLast}">{{totalpages}}</a></li>
+          <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

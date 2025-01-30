@@ -1,0 +1,104 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-5">
+      <div class="card">
+        <div class="card-header text-center">
+          <img src="../../../assets/person-circle.svg" class="mt-2 mb-2" />
+          <h4 class="mb-2">Registrarse</h4>
+        </div>
+        <div class="card-body ps-5 pe-5">
+          <form (ngSubmit)="register()" [formGroup]="registerForm" class="row g-3">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="name" required formControlName="name" />
+              <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="alert alert-danger">
+                <span *ngIf="registerForm.get('name')?.errors?.['required']">Campo obligatorio</span>
+                <span *ngIf="registerForm.get('name')?.errors?.['maxlength']" >Máximo 20 caracteres</span>               
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="lastname" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="lastname" required formControlName="lastname" />
+              <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="alert alert-danger">
+                <span *ngIf="registerForm.get('lastname')?.errors?.['required']">Campo obligatorio</span>
+                <span *ngIf="registerForm.get('lastname')?.errors?.['maxlength']" >Máximo 25 caracteres</span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="username" class="form-label">Nombre de usuario</label>
+              <input type="text" class="form-control" id="username" required formControlName="username" (input)="verifyUser()" />
+              <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched || userExist" class="alert alert-danger">
+                <span *ngIf="registerForm.get('username')?.errors?.['required']">Campo obligatorio</span>
+                <span *ngIf="registerForm.get('username')?.errors?.['minlength'] || registerForm.get('username')?.errors?.['maxlength']" >Debe tener entre 5 y 15 caracteres</span>
+                <span *ngIf="userExist" >Este nombre de usuario ya está en uso</span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" required formControlName="email" (input)="verifyEmail()" />
+              <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched || mailExist" class="alert alert-danger">
+                <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['minlength'] || registerForm.get('email')?.errors?.['maxlength']" >El correo electrónico debe tener entre 5 y 15 caracteres</span>
+                <span *ngIf="mailExist">Este correo electronico ya está en uso</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['notFound']" >No existe este correo electronico</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['email']">Formato invalido</span>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <label for="phone" class="form-label">Nº telefono <p class="small d-inline">(Opcional)</p></label>
+              <input type="text" class="form-control" id="phone" formControlName="phone"/>
+              <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="alert alert-danger">
+                <span *ngIf="registerForm.get('phone')?.errors?.['pattern']" >Formato de telefono invalido</span>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" required formControlName="password"  />
+              <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="alert alert-danger">
+                <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['minlength'] || registerForm.get('password')?.errors?.['maxlength']" >La contraseña debe tener entre 3 y 15 caracteres</span>               
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="password2" class="form-label">Confirmar contraseña</label>
+              <input type="password" class="form-control" id="password2" required formControlName="password2" />
+              <div *ngIf="registerForm.get('password2')?.errors && registerForm.get('password2')?.touched" class="alert alert-danger">
+                <span *ngIf="registerForm.get('password2')?.errors?.['required']">Confirme la contraseña anterior</span>
+                <span *ngIf="registerForm.get('password2')?.errors?.['passwordError']">Las contraseñas no coinciden</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="country" class="form-label">Región <p class="small d-inline">(Opcional)</p></label>
+              <select id="country" class="form-select" formControlName="country">
+                <option value="España">España</option>
+                <option value="EEUU">EEUU</option>
+                <option>Francia</option>
+                <option>Inglaterra</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="policy" formControlName="policy" required>
+                <label class="form-check-label small" for="policy">
+                  He leido y acepto los <a href="https://policies.google.com/privacy?hl=es" target="_blank">terminos y condiciones.</a>
+                </label>
+                <div *ngIf="registerForm.get('policy')?.invalid && registerForm.get('policy')?.touched" class="alert alert-danger">
+                  Debes confirmar terminos y politicas de privacidad para poder registrarte
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-center">
+              <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary ps-5 pe-5">Registrarse</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center mb-0 mt-0  pb-0">
+          <p class="mt-2">Si ya tienes una cuenta, <a routerLink="/login" class="card-link">inicia sesión</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

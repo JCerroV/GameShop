@@ -1,0 +1,80 @@
+<div class="container bg-body-secondary p-4 mt-4">
+    <h5 class="mb-3 fs-1 text-center">MVPGames-Usuarios</h5>
+    <ol class="breadcrumb fs-6 bg-body-tertiary p-1 ps-3">
+      <li class="breadcrumb-item"><a routerLink="">Inicio</a></li>
+      <li class="breadcrumb-item active">Usuarios</li>
+    </ol>
+    <div class="card">
+      <div class="card-header bg-body-tertiary">
+        <h5 class="card-title">Usuarios</h5>
+      </div>
+      <div class="card-body">
+        
+          <div class="toolbar bg-dark p-1 d-flex align-items-center justify-content-between">
+            <div>
+                <a class="btn btn-primary m-1 ms-3" routerLink="/signup">Agregar</a>
+              <button class="btn btn-primary m-1" (click)="ordenar()"><i class="bi bi-arrow-down-up"></i> Ordenar</button>
+            </div>
+              <div class="d-flex align-items-center">
+                <input class="form-control custom-input" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="filterChain" (ngModelChange)="filterUsers()" >
+              <button class="btn custom-button me-3" [ngClass]="{'btn-secondary':filterChain=='','btn-danger':filterChain!=''}" (click)="cleanFilter()" type="submit"><i class="bi bi-x"></i></button>
+              </div>
+              
+              
+          </div>
+  
+        <table class="table table-striped mt-2">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" [class.clicked]="order === 'id'" (click)="sentOrder('id')" >Id</th>
+              <th scope="col">Foto</th>
+              <th scope="col" [class.clicked]="order === 'username'" (click)="sentOrder('username')" >Nombre de usuario</th>
+              <th scope="col" [class.clicked]="order === 'email'" (click)="sentOrder('email')">Email</th>
+              <th scope="col"> Cartera</th>
+              <th scope="col">Estado</th>
+              <th scope="col" [class.clicked]="order === 'role'" (click)="sentOrder('role')">Rol</th>
+              
+              <th scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let user of users" [routerLink]="['/users/',user.username]"  >
+                  <td>{{ user.id }}</td>
+                  <td><img [src]="user.profile.photo" alt="" width="50px" class="border"></td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{user.balance}}€</td>
+                  <td>{{user.status}}</td>
+                  <td>{{user.role}}</td>
+                  <td class="d-flex justify-content-center mt-1 py-3">
+                    <a [routerLink]="['/admin/users', user.username, 'orders']" class="btn btn-primary me-1"><i class="bi bi-currency-dollar"></i></a>
+                    <a class="btn btn-danger me-1" (click)="updateStatus(user.id!);$event.stopPropagation()" ><i class="bi bi-ban"></i></a>
+                    <a class="btn btn-warning me-1" [routerLink]="['/admin/users',user.id,'update']"><i class="bi bi-pencil"></i></a>
+                    <div class="dropdown">
+                    <a class="btn btn-success me-1" data-bs-toggle="dropdown" (click)="$event.stopPropagation()" ><i class="bi bi-tools"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item border" (click)="updateRole(user.id!,'ADMIN');$event.stopPropagation()">ADMIN</a></li>
+                        <li><a class="dropdown-item border" (click)="updateRole(user.id!,'MODER');$event.stopPropagation()">MODER</a></li>
+                        <li><a class="dropdown-item border" (click)="updateRole(user.id!,'USER');$event.stopPropagation()">USER</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+            </tbody>
+  
+        </table>
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="rewind()">Previous</a></li>
+            <li class="page-item"><a class="page-link" (click)="setPage(1)" [ngClass]="{'active': isFirst}">1</a></li>
+            <li *ngIf="page>1" class="page-item"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
+            <li *ngIf="!isFirst==true&&!isLast==true" class="page-item active"><a class="page-link" (click)="setPage(page+1)">{{page+1}}</a></li>
+            <li *ngIf="totalpages>page+2" class="page-item"><a class="page-link" (click)="setPage(page+2)">{{page+2}}</a></li>
+            <li *ngIf="totalpages!=1" class="page-item"><a class="page-link" (click)="setPage(totalpages)" [ngClass]="{'active': isLast}">{{totalpages}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  

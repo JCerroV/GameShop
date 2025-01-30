@@ -1,0 +1,38 @@
+<div class="container bg-dark pb-4">
+  <h2 class="text-light p-3">Mas baratos</h2>
+  <div class="px-3">
+    <div id="carouselExampleIndicators" class="carousel slide px-4" data-bs-ride="carousel">
+      <div class="carousel-indicators ">
+        <button *ngFor="let games of productosPorPagina; let i = index" type="button" data-bs-target="#carouselExampleIndicators" 
+        [attr.data-bs-slide-to]="i" [class.active]="i === 0" aria-current="true" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+      </div>
+        <div class="px-5 pb-4">
+          <div class="carousel-inner ">
+            <div *ngFor="let games of productosPorPagina; let i = index" class="carousel-item" [class.active]="i === 0">
+                <div class="row">
+                    <div *ngFor="let game of games" class="col-md-4 m-auto">
+                      <a [routerLink]="['/games', game.id]">
+                        <div class="card">
+                            <img [src]="game.image" class="card-img-top" alt="Producto" style="height: 200px; width: 100%;">
+                            <div class="card-body border-top">
+                                <h5 class="card-title">{{ game.title }}</h5>
+                                <p class="card-text">Precio: {{ game.price| currency }}</p>
+                            </div>
+                        </div>
+                      </a>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        </div>
+        <button class="carousel-control-prev bg-secondary" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon m-1" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next bg-secondary" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+  </div>
+</div>

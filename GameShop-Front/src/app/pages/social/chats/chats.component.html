@@ -1,0 +1,31 @@
+<div class=" container my-5 bg-dark text-light p-0 rounded-3">
+    <div class=" row p-0 m-0">
+        <div class="col-3 m-0 p-0">
+            <div class="p-4 border-bottom">
+                <label for="userBrowser" class="form-label fs-4">Buscar amigos:</label>
+                <div class="d-flex align-items-center">
+                    <input class="form-control" id="userBrowser" [(ngModel)]="friendFilter" name="userBrowser" type="text" placeholder="Search" aria-label="Search" >
+                    <button class="btn btn-outline-warning"  type="submit" (click)="searchFriend()"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            <div class=" p-2" style="max-height: 450px; overflow-y:auto;">
+                <div *ngFor="let friend of friends" class="bg-black  ">
+                    <a [routerLink]="['/chats/',friend.username]" class="nav-link">
+                        <div class="d-flex align-items-center justify-content-between p-2 my-1 border">
+                        <img [src]="friend.profile.photo" alt="" style="height: 50px; width: 50px; ">
+                    <span class="fs-6 ">{{friend.username}}</span>
+                    <a class="text-light" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
+                    <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
+                        <li><a class="dropdown-item mb-1">Ver perfil</a></li>
+                        <li><a class="dropdown-item"><i class="bi bi-person-fill-add"></i> Eliminar amigo </a></li>
+                    </ul>
+                </div>
+                    </a>
+                </div>
+            </div>  
+        </div>
+        <div class="col-9 border-start p-0" >
+            <app-chat></app-chat>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+td, th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  .custom-input {
+    width: 200px; /* Establece el ancho deseado para el campo de entrada */
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+    
+  }
+  .custom-button{
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+  }
+  .clicked {
+    background-color: rgba(32, 31, 31, 0.779); /* Cambia el color de fondo según tu preferencia */
+  }
+  

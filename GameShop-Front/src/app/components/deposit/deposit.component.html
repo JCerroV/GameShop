@@ -1,0 +1,40 @@
+<div class="container bg-dark text-light my-5 p-5 rounded-5 mx-auto">
+  <h5  class="fs-2">Ingresar fondos</h5>
+  <hr>
+  <div>
+    <h5 class="fs-4 mt-4 ms-2 mb-4">Elige tu plan:</h5>
+ 
+    <div class="d-flex justify-content-around bg-black rounded-5 p-4 align-items-stretch " style="height: 175px;">
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="selectedOption = '10€'">
+      <label class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-center fs-3" for="btnradio1" style="width: 18%;">10€</label>
+  
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="selectedOption = '20€'">
+      <label class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-center fs-3" for="btnradio2" style="width: 18%;">20€</label>
+  
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" (click)="selectedOption = '50€'">
+      <label class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-center fs-3" for="btnradio3" style="width: 18%;">50€</label>
+  
+      <input type="radio" class="btn-check " name="btnradio" id="btnradio4" autocomplete="off" (click)="selectedOption = '100€'">
+      <label class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-center fs-3" for="btnradio4" style="width: 18%;">100€</label>
+  
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" (click)="selectedOption = 'Personalizado'">
+      <label class="btn btn-outline-warning btn-lg d-flex align-items-center justify-content-center fs-3" for="btnradio5" style="width: 18%;">Personalizado</label>
+    </div>
+
+    <div *ngIf="selectedOption === 'Personalizado'" class="mt-4 col-2">
+      <label for="password" class="col-form-label">Cantidad personalizada (0-999€):</label>
+      <div class="input-group">
+          <span class="input-group-text">€</span>
+          <input type="number" class="form-control" min="0" max="999" [max]="999" placeholder="Introduce un valor" [(ngModel)]="customValue">
+      </div>
+  </div>
+    <div class=" mt-5">
+      <hr>
+      <label for="password" class="col-form-label">Introduce la contraseña para confirmar:</label>
+      <div class="col-2 mt-2">
+        <input type="password" name="password" id="password" class="form-control" [(ngModel)]="password">
+      </div>
+      <hr class="mt-4">
+      <button type="button"  class="btn btn-success " (click)="ingresarCantidad()">Ingresar</button> 
+    </div>
+</div>

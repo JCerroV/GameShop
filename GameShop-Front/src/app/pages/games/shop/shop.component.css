@@ -1,0 +1,56 @@
+
+*{
+    margin: auto;
+}
+
+header{
+    width: 80%;
+}
+nav{
+    width: 50%;
+}
+
+/* Ajustar el tamaño de las columnas para que haya 5 elementos por fila */
+.col-md-2 {
+    flex: 20%; /* Para que cada columna ocupe el 20% del ancho del contenedor padre */
+    max-width: 20%; /* Para establecer el máximo ancho de las columnas */
+  }
+  
+  /* Estilo para las imágenes de los productos */
+  .card-img-top {
+    width: 100%; /* Ajustar el ancho de la imagen al 100% del contenedor */
+    height: 200px; /* Ajustar automáticamente la altura de la imagen para mantener la relación de aspecto */
+    
+  }
+  a{
+    text-decoration: none;
+  }
+  
+  .card{
+    height: 300px;
+  }
+  
+
+  .precio {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(14, 200, 14);
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    opacity: 0.9;
+    border-radius: 20px;
+    font-size:smaller;
+  }
+  .dropdown-menu {
+    column-count: 2; /* Define el número de columnas */
+    column-gap: 20px; /* Define el espacio entre las columnas */
+    max-height: 300px; /* Define la altura máxima de la lista */
+    overflow-y:scroll; /* Agrega scroll vertical cuando sea necesario */
+  }
+  .dropdown-menu li {
+    min-width: 150px; /* Define un ancho mínimo para cada elemento dentro de las columnas */
+  }
+  
+  

@@ -1,0 +1,36 @@
+.saldo-item {
+    background-color: #efefef;
+    color: #040404;
+    padding: 3px 4px 4px 4px; 
+    font-size: small;
+    margin-top: 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.saldo-item:hover {
+    opacity: 0.7;
+    color: #0f0f0f;
+}
+
+.nav-item{
+    margin-left: 10px;
+}
+
+.admin-nav-item{
+    margin: 0px;
+}
+.admin-nav-item:hover{
+    background-color: rgba(0, 0, 0, 0.275);
+
+}
+.offcanvas{
+    width: 275px;
+    height:fit-content;
+    margin: auto;
+}
+
+.table th,td {
+        padding: 10px; /* Ajusta el espacio entre el contenido de las celdas */
+    }

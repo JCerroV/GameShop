@@ -1,0 +1,81 @@
+<div class=" container my-5 bg-dark text-light p-0 rounded-3">
+    <div class=" row p-0 m-0">
+        <div class="col-3 m-0 p-0">
+            <div class="p-4 border-bottom">
+                <label for="userBrowser" class="form-label fs-4">Añadir amigos:</label>
+                <div class="d-flex align-items-center">
+                    <input class="form-control" id="userBrowser" name="userBrowser" [(ngModel)]="userBrowser" type="text" placeholder="Search" aria-label="Search" >
+                    <button class="btn btn-outline-warning" (click)="searchFriend()"  type="button"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            <div class=" p-2" style="max-height: 450px; overflow-y:auto;">
+                <div *ngFor="let user of users" class="bg-black d-flex align-items-center justify-content-between p-2 my-1 border ">
+                    <img [src]="user.profile.photo" alt="" style="height: 50px; width: 50px; ">
+                    <span class="fs-6 ">{{user.username}}</span>
+                    <a class="text-light" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
+                    <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
+                        <li><a class="dropdown-item mb-1" [routerLink]="['/users/',user.username]" >Ver perfil</a></li>
+                        <li><a class="dropdown-item" (click)="addFriend(user.username)"><i class="bi bi-person-fill-add"></i> Añadir amigo </a></li>
+                    </ul>
+                </div>
+            </div>  
+        </div>
+        <div class="col-9 border-start p-3 px-2" >
+            <h5 class="fs-2 ms-4">Amigos</h5>
+            <hr>
+            <div class="px-1 ms-2">
+                <h5 class=" fs-4 ms-4">Mis amigos: <span class="fs-5">{{friends.length}}</span></h5>
+                <hr>
+                <div *ngIf="friends.length<=0" style="min-height: 100px;"  class="d-flex align-items-center">
+                        <h5 class="fs-5 m-auto">No tienes amigos agregados</h5>
+                </div>
+
+                <div *ngIf="friends.length>0" class=" d-flex flex-wrap ">
+                    <div *ngFor="let friend of friends" class="card px-4 py-2 bg-black d-flex  text-light m-3 mx-2 dropdown">
+                        <img [src]="friend.profile.photo" alt="" class="border m-auto p-1 mt-4" style="height: 125px; width: 125px;">
+                        <div class="my-3 m-auto ">
+                            <span class="m-auto ms-4">{{friend.username}}</span>
+                            <a class="text-light ms-2" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
+                            <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
+                                <li><a class="dropdown-item mb-1" [routerLink]="['/users/',friend.username]">Ver perfil</a></li>
+                                <li><a class="dropdown-item" [routerLink]="['/chats/',friend.username]"><i class="bi bi-mail"></i> Mandar mensaje </a></li>
+                                <li><a class="dropdown-item" (click)="deleteRelation(friend.username)"><i class="bi bi-person-fill-add" ></i> Eliminar </a></li>
+                            </ul>
+                        
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h5 class="fs-4 ms-4">Pendientes: <span class="fs-5">{{receivedRequest.length}}</span></h5>
+                <hr>
+                <div *ngIf="receivedRequest.length<=0" style="min-height: 100px;" class="d-flex align-items-center">
+                    <h5 class="fs-5 m-auto">No tienes solicitudes pendientes</h5>
+                </div>
+                <div *ngIf="receivedRequest.length>0" class=" d-flex flex-wrap ">
+                    <div *ngFor="let pending of receivedRequest" class="card px-4 py-2 bg-black d-flex  text-light m-3 mx-2 dropdown">
+                        <img [src]="pending.profile.photo" alt="" class="border m-auto p-1 mt-4" style="height: 125px; width: 125px;">
+                        <div class="mt-1 d-flex justify-content-between align-items-center">
+                            <a (click)="deleteRelation(pending.username)" ><i class="fs-3 bi bi-x text-danger"></i></a>
+                            <a>{{pending.username}}</a>
+                            <a (click)="acceptPetition(pending.username)" ><i class="fs-3 bi bi-check text-success"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="sendRequests.length>0">
+                <hr>
+                <h5 class="fs-4 ms-4">Solicitudes enviadas: <span class="fs-5">{{sendRequests.length}}</span></h5>
+                <hr>
+                <div class=" d-flex flex-wrap  ">
+                    <div *ngFor="let pending of sendRequests" class="card px-4 py-2 bg-black d-flex  text-light m-3 mx-2 dropdown">
+                        <img [src]="pending.profile.photo" alt="" class="border m-auto p-1 mt-4" style="height: 125px; width: 125px;">
+                        <div class="mt-1 d-flex justify-content-center align-items-center me-3">
+                            <a (click)="deleteRelation(pending.username)" ><i class="fs-3 bi bi-x text-danger"></i></a>
+                            <a>{{pending.username}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

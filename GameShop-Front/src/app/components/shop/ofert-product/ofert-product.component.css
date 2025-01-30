@@ -1,0 +1,18 @@
+.carousel-control-prev{
+    width: 4%;
+    border-radius: 10px;
+    height: 20%;
+    margin: auto;
+}
+.carousel-control-next{
+    width: 4%;
+    border-radius: 10px;
+    height: 20%;
+    margin: auto;
+}
+.carousel-indicators{
+    margin:0px;
+}
+a{
+    text-decoration: none;
+  }

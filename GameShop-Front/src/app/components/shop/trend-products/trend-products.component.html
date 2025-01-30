@@ -1,0 +1,38 @@
+<div class="container bg-black pb-4">
+    <h2 class="text-light p-3">Mejor valorados</h2>
+    <div class="px-3">
+      <div id="trendsgames" class="carousel slide px-4" data-bs-ride="carousel">
+        <div class="carousel-indicators ">
+          <button *ngFor="let grupo of productosPorPagina; let i = index" type="button" data-bs-target="#trendsgames" 
+          [attr.data-bs-slide-to]="i" [class.active]="i === 0" aria-current="true" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+        </div>
+          <div class="px-5 pb-4">
+            <div class="carousel-inner ">
+              <div *ngFor="let grupo of productosPorPagina; let i = index" class="carousel-item" [class.active]="i === 0">
+                  <div class="row">
+                      <div *ngFor="let producto of grupo" class="col-md-3 m-auto">
+                        <a [routerLink]="['/games', producto.id]">
+                          <div class="card">
+                              <img [src]="producto.image" class="card-img-top" alt="Producto" style="height: 200px; width: 100%;">
+                              <div class="card-body border-top">
+                                  <h5 class="card-title">{{ producto.title }}</h5>
+                                  <p class="card-text">Precio: {{ producto.price | currency }}</p>
+                              </div>
+                          </div>
+                        </a>
+                      </div>                    
+                  </div>
+              </div>
+          </div>
+          </div>
+          <button class="carousel-control-prev bg-secondary" type="button" data-bs-target="#trendsgames" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon m-1" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next bg-secondary" type="button" data-bs-target="#trendsgames" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+          </button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,114 @@
+<header class="bg-warning text-center my-4 py-5 border border-4 border-black">
+  <h1 class="display-3 fw-bold">Bienvenido a MVPGAMES</h1>
+  <p class="fs-5 fw-semibold">La mejor tienda de Videojuegos online</p>
+</header>
+<main class="mb-4">
+  <nav
+    class="navbar bg-dark border border-white border-body mb-4"
+    data-bs-theme="dark"
+    width="100px"
+  >
+    <div class="container-fluid">
+      <a class="navbar-brand">GamePass</a>
+
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          [(ngModel)]="inputValue"
+          name="search"
+          (ngModelChange)="filtrarJuegos()"
+        />
+        <button class="btn btn-outline-success" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+      <div class="dropdown">
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <i class="bi bi-filter"> Filtrar</i>
+        </button>
+        <ul class="dropdown-menu px-3 m-4">
+          <li *ngFor="let category of categories"><input type="checkbox" [value]="category.id" (change)="changeSelectedCategories($event)"> {{category.name}}</li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <app-trend-products  [hidden]="inputValue || selectedCategories.length>0"></app-trend-products>
+  <app-ofert-product [hidden]="inputValue || selectedCategories.length>0"></app-ofert-product>
+
+  <div class="container bg-black pb-1">
+    <h2 class="text-light p-3">Todos los juegos</h2>
+    <div *ngIf="games.length <= 0" class="text-light text-center fs-5 py-5">
+      No se han encontrado coincidencias
+    </div>
+
+    <div class="row px-3">
+      <div class="col-md-2 pb-3 pt-2" *ngFor="let game of games">
+        <a [routerLink]="['/games', game.id]">
+          <div class="card">
+            <img [src]="game.image" class="card-img-top" alt="Producto" />
+            <div class="card-body border-top">
+              <h5 class="card-title">{{ game.title }}</h5>
+            </div>
+            <div class="precio">
+              <p class="card-text">{{ game.price | currency }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div
+      aria-label="Page navigation example"
+      class="d-flex justify-content-center"
+      *ngIf="games.length > 0"
+    >
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" (click)="rewind()">Previous</a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            (click)="setPage(1)"
+            [ngClass]="{ active: isFirst }"
+            >1</a
+          >
+        </li>
+        <li *ngIf="page > 1" class="page-item">
+          <a class="page-link" (click)="setPage(page)">{{ page }}a</a>
+        </li>
+        <li
+          *ngIf="!isFirst == true && !isLast == true"
+          class="page-item active"
+        >
+          <a class="page-link" (click)="setPage(page + 1)">{{ page + 1 }}b</a>
+        </li>
+        <li *ngIf="totalPages > page + 2" class="page-item">
+          <a class="page-link" (click)="setPage(page + 2)">{{ page + 2 }}c</a>
+        </li>
+        <li *ngIf="totalPages != 1" class="page-item">
+          <a
+            class="page-link"
+            (click)="setPage(totalPages)"
+            [ngClass]="{ active: isLast }"
+            >{{ totalPages }}</a
+          >
+        </li>
+        <li class="page-item">
+          <a class="page-link" (click)="next()">Next</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</main>

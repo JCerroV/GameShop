@@ -1,0 +1,19 @@
+<div class="container bg-dark my-5 p-5 text-light">
+  <h5 class=" fs-2">Biblioteca</h5><hr>
+  <h5 class="ms-2 fs-5">Mis juegos: {{games.length}}</h5>
+  <div *ngIf="games.length <= 0" class="text-light text-center fs-5 py-5">
+    No tienes juegos 
+  </div>
+  <div class="row px-2 my-3">
+    <div class="col-3 pb-3 pt-2" *ngFor="let game of games">
+      <a [routerLink]="['/games', game.id]" class="text-decoration-none">
+        <div class="card">
+          <img [src]="game.image" class="card-img-top" alt="Producto" style="height: 175px;" />
+          <div class="card-body border-top">
+            <h5 class="card-title text-center">{{ game.title }}</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

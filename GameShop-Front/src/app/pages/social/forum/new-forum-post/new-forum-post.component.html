@@ -1,0 +1,33 @@
+<div class="container my-5">
+    <div class="card bg-dark text-light">
+        <div class="card-title">
+            <div class="d-flex align-items-center rounded-3 border-bottom p-2">
+                <a [routerLink]="['/forum']" class="border-end me-3"><i class="bi bi-caret-left fs-2 text-light"></i></a>
+                <h2 class="mt-1 ms-2">Crear un nuevo hilo</h2>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="threadForm" (ngSubmit)="createThread()">
+            <div class="col-6">
+                <label class="form-label my-2" for="title">Título del hilo</label>
+                <input class="form-control my-2" type="text" formControlName="title" id="title" data-bs-theme="dark">
+                <div *ngIf="threadForm.get('title')?.invalid && threadForm.get('title')?.touched" class="alert alert-danger" data-bs-theme="dark">
+                    <small *ngIf="threadForm.get('title')?.errors?.['required']">El nombre es obligatorio.</small>
+                    <small *ngIf="threadForm.get('title')?.errors?.['minlength']||threadForm.get('title')?.errors?.['maxlength']">El titulo debe tener entre 5 y 50 caracteres.</small>
+                  </div>
+            </div>
+
+            <div class="col-9">
+                <label class="form-label my-2" for="content">Comentario del hilo</label>
+                
+                <textarea class="form-control my-2" rows="10" (resize)="true"  formControlName="content" id="content" [placeholder]="['Escribe el contenido de tu hilo...']" data-bs-theme="dark" style="resize: none;" ></textarea>
+                <div *ngIf="threadForm.get('content')?.invalid && threadForm.get('content')?.touched" class="alert alert-danger" data-bs-theme="dark">
+                    <small *ngIf="threadForm.get('content')?.errors?.['required']">El cuerpo principal del hilo es obligatorio.</small>
+                    <small *ngIf="threadForm.get('content')?.errors?.['minlength']||threadForm.get('content')?.errors?.['maxlength']">El cuerpo debe tener entre 4 y 1200 caracteres.</small>
+                  </div>
+            </div>
+            <button type="submit" class="btn btn-success my-2" >Crear nuevo hilo</button>
+        </form>
+        </div>
+    </div>
+</div>

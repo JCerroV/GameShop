@@ -1,0 +1,49 @@
+<div class=" m-0 p-0">
+    <div class="m-0 d-flex align-items-stretch border bg-black">
+        <div class="p-1 d-flex align-items-center border-end">
+            <img [src]="relation?.friend?.profile?.photo" class="rounded-5 mx-2" alt="" style="height: 50px; width: 50px;">
+        </div>
+        
+        <div class="d-flex flex-grow-1 align-items-center justify-content-between  m-0 p-2">
+            <h5 class="m-0 mx-2">{{relation?.friend?.username}}</h5>
+            <a><i class="bi bi-three-dots-vertical"></i></a>
+        </div>
+    </div>
+    
+    
+    <div #messageContainer style="height: 400px; overflow-y: auto;">
+        <div *ngFor="let message of messages">
+        <div *ngIf="message.username==relation?.user?.username" class="d-flex justify-content-end align-items-center">
+            <div class="bg-primary p-2 px-4 rounded-5 m-2" style="max-width: 80%;">
+                <div>{{message.text}}</div>
+                
+                <div class="text-muted text-end p-0 m-0" style="font-size: 10px;">{{message.sendAt | date: 'HH:mm  dd/MM/yyyy' }}</div></div>
+                <div class="me-2"><img [src]="relation?.user?.profile?.photo" alt="" style="height: 30px; width: 30px;" class="rounded-5"></div>
+        
+        </div>
+       
+        <div *ngIf="message.username!=relation?.user?.username" class="d-flex align-items-center">
+            <div class="ms-2"><img [src]="relation?.friend?.profile?.photo" alt="" style="height: 30px; width: 30px;" class="rounded-5"></div>
+            <div class="bg-primary p-2 px-4 rounded-5 m-2" style="max-width: 80%;">
+                <div>{{message.text}}</div>
+                <div class="text-muted text-end p-0 m-0" style="font-size: 10px;">{{message.sendAt | date: 'HH:mm dd/MM/yyyy' }}</div>
+            </div>
+        </div>
+        </div>
+    </div><form (ngSubmit)="sendMessage($event)">
+    <div class="d-flex  bg-black p-1 border-top">
+        <textarea
+        rows="1"
+        class="form-control bg-dark me-1"
+        data-bs-theme="dark"
+        type="text"
+        [(ngModel)]="messageInput"
+        name="sendMessage"
+        id="sendMessage"
+        placeholder="Escribe tu mensaje"
+        (input)="autoExpand($event)"
+        (keydown.enter)="sendMessage($event)"
+        style="resize: none; overflow: hidden;"></textarea>
+            <button  type="submit" class="btn btn-success rounded-5"><i class="bi bi-send"></i></button>
+    </div></form>
+</div>

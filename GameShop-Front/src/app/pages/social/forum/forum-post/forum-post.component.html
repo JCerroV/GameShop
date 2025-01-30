@@ -1,0 +1,90 @@
+<div class="container my-5">
+    <div class="card bg-dark text-light p-4">
+        <div class="card-title  ">
+            <div class="d-flex align-items-center justify-content-between bg-black rounded-3 p-2">
+                <div class="d-flex align-items-center">
+                    <a [routerLink]="['/forum']" class="border-end me-2"><i class="bi bi-caret-left fs-2 text-light"></i></a>
+                
+                    <div *ngIf="editTitle" class="d-flex">
+                        
+                        <textarea class="form-control" name="" rows="1" cols="60" id="" [(ngModel)]="thread!.title" data-bs-theme="dark" style="resize: none;"></textarea>
+                        <button class="btn btn-success mx-1" (click)="updateThread(false)"><i class="bi bi-check"></i></button>
+                        <button class="btn btn-danger" (click)="editTitle=false"><i class="bi bi-x"></i></button>
+                    </div>
+                    
+                    <h4 *ngIf="!editTitle" class="mt-2" data-bs-theme="dark">{{thread?.title}}<button *ngIf="currentUser?.role=='ADMIN' || currentUser?.role=='MODER'" class="fs-5 btn" (click)="editTitle=true" ><i class="bi bi-pencil"></i></button></h4>
+                </div>
+                <div *ngIf="currentUser?.role=='ADMIN' || currentUser?.role=='MODER'" class="d-flex align-items-center">
+                    <button  class="btn fs-5" data-bs-theme="dark" (click)="updateThread(true)" ><i class="bi" [ngClass]="{'bi-lock': !thread?.status, 'bi-unlock':thread?.status}"></i></button>
+                    <button class="btn fs-5" data-bs-theme="dark" (click)="deleteThread()" ><i class="bi bi-trash3"></i></button>
+                </div>
+
+                
+            </div>
+            <div *ngIf="!thread?.status" class=" text-center p-2 bg-black rounded-3 mt-2">
+                <h4>Hilo cerrado<i class="bi bi-lock"> </i></h4>
+             </div>
+            <hr>
+        </div>
+        <div>
+            <div *ngFor="let post of posts" class="d-flex rounded-2 border my-2">
+                <div class="p-4 text-center border-end  ">
+                    <img class="rounded-5 mb-3" [src]="post.userDTO.profile.photo" alt="" style="width:100px; height: 100px;">
+                    <h6><a [routerLink]="['/users/',post.userDTO.username]" class="nav-link">{{post.userDTO.username}}</a></h6>
+                </div>
+                <div class="d-flex flex-column  flex-grow-1 px-3  bg">
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-1">
+                        <span>{{post.createdAt | date:'HH:mm:ss dd/MM/yyyy'}}</span>
+                        <span *ngIf="post.updatedAt !=null">Modificado el {{post.updatedAt | date:'dd/MM/yyyy \'a las\' HH:mm:ss'}} por  <a [routerLink]="['/users/',post.editBy.username]" class="text-decoration-none text-light ms-1"><img [src]="post.editBy.profile.photo" alt="" class="rounded-5 border" style="height: 25px; width: 25px;"> {{post.editBy.username}}</a> </span>
+                    </div>
+                    <div class="py-2" >
+                        <div *ngIf="post.editMode">
+                            <textarea [(ngModel)]="post.content" rows="5" class="form-control" data-bs-theme="dark" style="resize: none;"></textarea>
+                            <button class="btn btn-outline-success py-1" (click)="updatePost(post.id,post.content)" >Modificar</button>
+                        </div>
+                        <p *ngIf="!post.editMode">{{post.content}}</p>
+                        
+                    </div>
+                    <div class="d-flex justify-content-end flex-grow-1 align-items-end mb-2">
+                            
+                        <div *ngIf="isLogged && (currentUser?.role!='USER' || currentUser?.username==post.userDTO.username) " class="d-flex justify-content-end flex-grow-1 align-items-end border-top pt-2">
+                            <button class="btn btn-outline-warning mx-4 py-1" (click)="post.editMode=!post.editMode">Editar</button>
+                            <button (click)="deletePost(post.id)" class="btn btn-outline-danger mx-4 py-1">Eliminar</button>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <nav *ngIf="totalPages>1" aria-label="Page navigation example " class="my-3 " data-bs-theme="dark">
+                <ul class="pagination">
+                  <li [ngClass]="{active:isFirst}" class="page-item">
+                    <a class="page-link" (click)="changePage(0)" >1</a>
+                  </li>
+                  <li *ngIf="1<page" class="page-item"><a class="page-link" (click)="changePage(page-1)">{{page}}</a></li>
+                  <li *ngIf="!isFirst && !isLast " class="page-item active"><a class="page-link" (click)="changePage(page)" >{{page+1}}</a></li>
+                  <li *ngIf="totalPages-2 > page" class="page-item"><a class="page-link" (click)="changePage(page+1)">{{page+2}}</a></li>
+                  <li [ngClass]="{active:isLast}" class="page-item">
+                    <a class="page-link" (click)="changePage(totalPages-1)" >{{totalPages}}</a>
+                  </li>
+                </ul>
+              </nav>
+        </div>
+        <div *ngIf="!thread?.status" class=" text-center p-2 bg-black rounded-3">
+           <h4>Hilo cerrado<i class="bi bi-lock"> </i></h4>
+        </div>
+        <div *ngIf="isLogged && thread?.status" class="d-flex bg-secondary border rounded-1 mt-2">
+            <div class="p-4 text-center border-end  ">
+                <img class="rounded-5 mb-3" [src]="currentUser?.profile?.photo" alt="" style="width:100px; height: 100px;">
+                <h6>{{currentUser?.username}}</h6>
+            </div>
+
+            <div class="text-end flex-grow-1 bg-dark p-1 d-flex flex-column " >
+                <textarea [(ngModel)]="inputPost" class="form-control bg-dark text-light" rows="6" [placeholder]="['Escribe un comentario...']" data-bs-theme="dark" style="resize: none;" ></textarea>
+                <button  class="btn btn-success " type="button" (click)="publishPost()" >Publicar</button>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>

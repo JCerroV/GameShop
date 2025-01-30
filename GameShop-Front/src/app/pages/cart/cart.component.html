@@ -1,0 +1,34 @@
+<div class="container my-5 p-4 bg-black text-light">
+    <h5 class="fs-4 text-center  mb-4 bg-black">Lista de favoritos</h5>
+    <div class="bg-dark py-2 border">
+    <h5 *ngIf="user?.shoppingCart?.length!<=0" class=" text-center m-4"> La lista esta vacía</h5>    
+    <table *ngIf="user?.shoppingCart?.length!>0" class=" table table-dark table-striped mt-2">
+        <thead class="table-dark">
+          <tr class="text-center">
+            <th scope="col" >Foto</th>
+      <th scope="col" >Título</th>
+      <th scope="col" >Desarrollador</th>
+      <th scope="col" >Precio</th>
+      <th scope="col" >Agregado</th>
+      <th scope="col" >Eliminar de la lista</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of user?.shoppingCart" [routerLink]="['/games/',item.game.id]" class="text-center align-middle" >
+                <td><img [src]="item.game.image" alt="" width="100px" class="border"></td>
+                <td>{{item.game.title}}</td>
+                <td>{{item.game.author}}</td>
+                <td>{{ item.game.price }}</td>
+                <td>{{item.addedDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td><button class="btn btn-danger" (click)="removeFromCart(item.id);$event.stopPropagation()"><i>X</i></button></td>
+              </tr>
+          </tbody>
+
+      </table>
+</div>
+<div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+    <p class="text-left fs-4 " >Total: {{total.toFixed(2)}}€</p>
+    <a class="btn btn-success" [routerLink]="['/buy']">Comprar todos</a>
+</div>
+
+</div>
